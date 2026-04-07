@@ -22,6 +22,31 @@ function savedReducer(state, action) {
 
 function App() {
   const [saved, dispatch] = useReducer(savedReducer, [])
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  const handleSearch = async (query) => {
+    setLoading(true)
+
+    try {
+      const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&json=1&page_size=10&lc=en`
+// added api key
+      const response = await fetch(url)
+      const data = await response.json()
+
+        console.log(data.products)
+
+      const filtered = data.products.filter(
+  (p) => p.product_name || p.brands || p.generic_name
+)
+
+      setResults(filtered)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div>
