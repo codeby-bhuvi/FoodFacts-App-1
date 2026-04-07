@@ -1,16 +1,51 @@
-import { NavLink } from 'react-router-dom'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Badge from '@mui/material/Badge'
 
-function NavBar({ savedCount }) {
+import BookmarkIcon from '@mui/icons-material/Bookmark'
+
+import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
+function NavBar() {
+
+  const savedCount = useSelector(state => state.saved.items.length)
+
   return (
-    <nav className="navbar">
-      <span className="nav-logo">🥗 FoodFacts</span>
-      <div className="nav-links">
-        <NavLink to="/">Search</NavLink>
-        <NavLink to="/saved">
-          Saved {savedCount > 0 && <span className="badge">{savedCount}</span>}
-        </NavLink>
-      </div>
-    </nav>
+    <AppBar position="sticky">
+
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+
+        <Typography variant="h6" fontWeight={800}>
+          🥗 FoodFacts
+        </Typography>
+
+        <div style={{ display: 'flex', gap: '10px' }}>
+
+          <Button component={NavLink} to="/" color="inherit">
+            Search
+          </Button>
+
+          <Button
+            component={NavLink}
+            to="/saved"
+            color="inherit"
+            startIcon={
+              <Badge badgeContent={savedCount} color="secondary">
+                <BookmarkIcon />
+              </Badge>
+            }
+          >
+            Saved
+          </Button>
+
+        </div>
+
+      </Toolbar>
+
+    </AppBar>
   )
 }
 
