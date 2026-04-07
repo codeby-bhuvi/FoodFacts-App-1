@@ -11,7 +11,7 @@ function App() {
 
     try {
       const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&json=1&page_size=10&lc=en`
-
+// added api key
       const response = await fetch(url)
       const data = await response.json()
 
